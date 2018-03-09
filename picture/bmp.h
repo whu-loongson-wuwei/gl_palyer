@@ -1,3 +1,4 @@
+#define BYTE char
 typedef struct                       /**** BMP file header structure ****/  
 {  
     unsigned int   bfSize;           /* Size of file */  
@@ -27,8 +28,8 @@ typedef struct tagRGBQUAD{
 }RGBQUAD;
 void SaveBmp(const char *filename,unsigned char *rgbbuf,int width,int height)  
 {  
-    MyBITMAPFILEHEADER bfh;  
-    MyBITMAPINFOHEADER bih;  
+    BITMAPFILEHEADER bfh;  
+    BITMAPINFOHEADER bih;  
     /* Magic number for file. It does not fit in the header structure due to alignment requirements, so put it outside */  
     unsigned short bfType=0x4d42;             
     bfh.bfReserved1 = 0;  

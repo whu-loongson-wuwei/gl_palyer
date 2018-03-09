@@ -8,10 +8,10 @@ class Context{
     public:
         typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
         typedef Bool (*glXMakeContextCurrentARBProc)(Display*, GLXDrawable, GLXDrawable, GLXContext);
-        static glXCreateContextAttribsARBProc glXCreateContextAttribsARB = 0;
-        static glXMakeContextCurrentARBProc glXMakeContextCurrentARB = 0;
         static void Init()
-        {
+    {
+            glXCreateContextAttribsARBProc glXCreateContextAttribsARB ;
+            glXMakeContextCurrentARBProc glXMakeContextCurrentARB;
             static int visual_attribs[] = { None };
             int context_attribs[] = {
                 GLX_CONTEXT_MAJOR_VERSION_ARB, 3,
@@ -23,20 +23,14 @@ class Context{
             GLXFBConfig* fbc = NULL;
             GLXContext ctx;
             GLXPbuffer pbuf;
- 
-            /* open display */
             if ( ! (dpy = XOpenDisplay(0)) ){
                 fprintf(stderr, "Failed to open display\n");
                 exit(1);
             }
- 
-            /* get framebuffer configs, any is usable (might want to add proper attribs) */
             if ( !(fbc = glXChooseFBConfig(dpy, DefaultScreen(dpy), visual_attribs, &fbcount) ) ){
                 fprintf(stderr, "Failed to get FBConfig\n");
                 exit(1);
             }
- 
-            /* get the required extensions */
             glXCreateContextAttribsARB = (glXCreateContextAttribsARBProc)glXGetProcAddressARB( (const GLubyte *) "glXCreateContextAttribsARB");
             glXMakeContextCurrentARB = (glXMakeContextCurrentARBProc)glXGetProcAddressARB( (const GLubyte *) "glXMakeContextCurrent");
             if ( !(glXCreateContextAttribsARB && glXMakeContextCurrentARB) ){
@@ -44,15 +38,11 @@ class Context{
                 XFree(fbc);
                 exit(1);
             }
- 
-            /* create a context using glXCreateContextAttribsARB */
             if ( !( ctx = glXCreateContextAttribsARB(dpy, fbc[0], 0, True, context_attribs)) ){
                 fprintf(stderr, "Failed to create opengl context\n");
                 XFree(fbc);
                 exit(1);
             }
- 
-            /* create temporary pbuffer */
             int pbuffer_attribs[] = {
                 GLX_PBUFFER_WIDTH, 800,
                 GLX_PBUFFER_HEIGHT, 600,
@@ -62,12 +52,7 @@ class Context{
  
             XFree(fbc);
             XSync(dpy, False);
- 
-            /* try to make it the current context */
             if ( !glXMakeContextCurrent(dpy, pbuf, pbuf, ctx) ){
-                /* some drivers does not support context without default framebuffer, so fallback on
-                 * using the default window.
-                 */
                 if ( !glXMakeContextCurrent(dpy, DefaultRootWindow(dpy), DefaultRootWindow(dpy), ctx) ){
                         fprintf(stderr, "failed to make current\n");
                         exit(1);
@@ -77,7 +62,7 @@ class Context{
      
 	static void GetPixels(void *data)
 	{
-		glReadPixels(0,0,800,600,GL_RGB,data);
+		glReadPixels(0,0,800,600,GL_RGB,GL_UNSIGNED_BYTE,data);
 	}
- }
+ };
 
