@@ -429,14 +429,14 @@ class ABIPrinter(object):
                 continue
 
             export = self.api_call if not ent.hidden else ''
-
             proto = self._c_decl(ent, prefix, True, export)
             cast = self._c_cast(ent)
             ret = ''
             if ent.ret:
                 ret = 'return '
+
 	    stmt_func_header = self.indent
-            stmt_func_header += "FILE *fp = fopen(\"opengl_call.txt\",\"a+\");"
+            stmt_func_header += 'FILE *fp = fopen(\"opengl_call.txt\",\"a+\");'
             stmt_func_tail = self.indent
             stmt_func_tail += 'fclose(fp);'
 	    args = ent.c_params().split(',')
@@ -445,35 +445,15 @@ class ABIPrinter(object):
                 ps = arg.split()
 		if len(ps) == 1:
                     form += ''             
-		elif len(ps) == 2:
-		    if ps[1].find('*') == -1:
-	                form += '%f'
-		    else:
-			form += '%p'
 		else:
-		    if ps[2].find('*') == -1:
+		    if ps[-1].find('*') == -1:
 	                form += '%f'
 		    else:
-			form += '%p'
-		form += ','
-            form = form[:-1]
-	    form += ')'      
+		        form += '%p'
+		        form += ','
+            form = form[:-1]     
             stmt_func_1 = self.indent
-	    temp = 'fprintf(fp,\"%s('+form+'\\n\",\"gl'
-	    stmt_func_1 += temp
-	    stmt_func_1 += ent.name
-	    stmt_func_1 += '\"'
-	    if len(ent.c_args()) > 0:
-	        stmt_func_1 += ','
-	    stmt_func_1 += ent.c_args()
-	    stmt_func_1 += ');'
-            '''
-            stmt01 = self.indent
-            stmt01 += 'fprintf(fp,\"%s\\n\",\"'
-            stmt01 += proto
-            stmt01 += '\");'
-            '''
-	    #need #include<stdlib.h> #include<string.h>
+            stmt_func_1 += 'fprint(fp,\"%s,{}\",{});'.format(form,ent.c_args())
 	    if ent.name == 'ShaderSource' or ent.name == 'ShaderSourceARB':
                 stmt_data_header = '\n'+self.indent
                 stmt_data_header += 'FILE *dp = fopen(\"param_pointer.data\",\"a+\");'
@@ -483,18 +463,16 @@ class ABIPrinter(object):
                 stmt_data_2 += 'long int current_pos = ftell(dp);'
                 stmt_data_3 = '\n'+self.indent
                 stmt_data_3 += 'fwrite(*string,1,size,dp);'
-		stmt_data_tail = '\n'+self.indent
+	        stmt_data_tail = '\n'+self.indent
 		stmt_data_tail += 'fclose(dp);'
                 stmt_desc_header = '\n'+self.indent
                 stmt_desc_header += 'FILE *descp = fopen(\"param_pointer.desc\",\"a+\");'
                 stmt_desc_1 = '\n'+self.indent
-                new_record = '2 ,' + 'current_pos,' + 'size'
-                stmt_desc_1 += 'fprintf(descp,\"%d,%ld,%ld\\n\",'
-		stmt_desc_1 += new_record
-		stmt_desc_1 += ');'
+                stmt_desc_1 += 'fprintf(descp,\"%d,%ld,%ld\\n\",2 ,current_pos,size);'
 		stmt_desc_tail = '\n'+self.indent
                 stmt_desc_tail += 'fclose(descp);'
-		te = stmt_data_header + stmt_data_1 + stmt_data_2 + stmt_data_3 + stmt_data_tail + stmt_desc_header + stmt_desc_1 + stmt_desc_tail
+		te = stmt_data_header + stmt_data_1 + stmt_data_2 + stmt_data_3 
+                + stmt_data_tail + stmt_desc_header + stmt_desc_1 + stmt_desc_tail
 		stmt_func_tail += te
             stmt1 = self.indent
             stmt1 += 'const struct mapi_table *_tbl = %s();' % (
