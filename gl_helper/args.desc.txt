@@ -1,0 +1,188 @@
+//glDisableClientState
+File *dp = fopen("param.data","a+");
+fwrite(&array,1,sizeof(GLenum),dp);
+fclose(dp)
+
+//glDisableClientState
+GLenum arg1;
+fread(&arg1,1,sizeof(GLenum),dp);
+
+//glDrawElements
+File *dp = fopen("param.data","a+");
+fwrite(&mode,1,sizeof(GLenum),dp);
+fwrite(&count,1,sizeof(GLsizei),dp);
+fwrite(&type,1,sizeof(GLenum),dp);
+fwrite(indices,count,sizeof(GLubyte),dp);
+fclose(dp)
+
+//glDrawElements
+GLenum arg1;
+GLsizei arg2;
+GLenum arg3;
+GLubyte *arg4 = (GLubyte)malloc(count * sizeof(GLubyte));
+fread(&arg1,1,sizeof(GLenum),dp);
+fread(&arg2,1,sizeof(GLsizei),dp);
+fread(&arg3,1,sizeof(GLenum),dp);
+fread(&arg4,count,sizeof(GLubyte),dp);
+
+//glNormalPointer
+File *dp = fopen("param.data","a+");
+fwrite(&type,1,sizeof(GLenum),dp);
+fwrite(&stride,1,sizeof(GLsizei),dp);
+fwrite(pointer,1,sizeof(type),dp);
+fclose(dp)
+
+//glNormalPointer
+GLenum arg1;
+GLsizei arg2;
+GLvoid arg3;
+fread(&arg1,1,sizeof(GLenum),dp);
+fread(&arg2,1,sizeof(GLsizei),dp);
+fread(&arg3,1,sizeof(arg2),dp);
+
+//glVertexPointer
+File *dp = fopen("param.data","a+");
+fwrite(&size,1,sizeof(GLint),dp);
+fwrite(&type,1,sizeof(GLenum),dp);
+fwrite(&stride,1,sizeof(GLsizei),dp);
+fwrite(pointer,size,sizeof(type),dp);
+fclose(dp)
+
+//glVertexPointer
+GLint arg1;
+GLenum arg2;
+GLsizei arg3;
+GLenum *arg4 = (GLenum *)malloc(sizeof(GLenum) * arg1);
+fread(&arg1,1,sizeof(GLint),dp);
+fread(&arg2,1,sizeof(GLenum),dp);
+fread(&arg3,1,sizeof(GLsizei),dp);
+fread(&arg4,size,sizeof(arg2),dp);
+
+//glEnableClientState
+File *dp = fopen("param.data","a+");
+fwrite(&array,1,sizeof(GLenum),dp);
+fclose(dp)
+
+//glEnableClientState
+GLenum arg1;
+fread(&arg1,1,sizeof(GLenum),dp);
+
+//glRotatef
+File *dp = fopen("param.data","a+");
+fwrite(&angle,1,sizeof(GLfloat),dp);
+fwrite(&x,1,sizeof(GLfloat),dp);
+fwrite(&y,1,sizeof(GLfloat),dp);
+fwrite(&z,1,sizeof(GLfloat),dp);
+fclose(dp)
+
+//glRotatef
+GLfloat arg1;
+GLfloat arg2;
+GLfloat arg3;
+GLfloat arg4;
+fread(&arg1,1,sizeof(GLfloat),dp);
+fread(&arg2,1,sizeof(GLfloat),dp);
+fread(&arg3,1,sizeof(GLfloat),dp);
+fread(&arg4,1,sizeof(GLfloat),dp);
+
+//glTranslated
+File *dp = fopen("param.data","a+");
+fwrite(&x,1,sizeof(GLdouble),dp);
+fwrite(&y,1,sizeof(GLdouble),dp);
+fwrite(&z,1,sizeof(GLdouble),dp);
+fclose(dp)
+
+//glTranslated
+GLdouble arg1;
+GLdouble arg2;
+GLdouble arg3;
+fread(&arg1,1,sizeof(GLdouble),dp);
+fread(&arg2,1,sizeof(GLdouble),dp);
+fread(&arg3,1,sizeof(GLdouble),dp);
+
+//glMultMatrixf
+File *dp = fopen("param.data","a+");
+fwrite(&m,1,sizeof(GLfloat),dp);
+fclose(dp)
+
+//glMultMatrixf
+GLfloat arg1;
+fread(&arg1,1,sizeof(GLfloat),dp);
+
+//glColor3f
+File *dp = fopen("param.data","a+");
+fwrite(&red,1,sizeof(GLfloat),dp);
+fwrite(&green,1,sizeof(GLfloat),dp);
+fwrite(&blue,1,sizeof(GLfloat),dp);
+fclose(dp)
+
+//glColor3f
+GLfloat arg1;
+GLfloat arg2;
+GLfloat arg3;
+fread(&arg1,1,sizeof(GLfloat),dp);
+fread(&arg2,1,sizeof(GLfloat),dp);
+fread(&arg3,1,sizeof(GLfloat),dp);
+
+//glClear
+File *dp = fopen("param.data","a+");
+fwrite(&mask,1,sizeof(GLbitfield),dp);
+fclose(dp)
+
+//glClear
+GLbitfield arg1;
+fread(&arg1,1,sizeof(GLbitfield),dp);
+
+//glMatrixMode
+File *dp = fopen("param.data","a+");
+fwrite(&mode,1,sizeof(GLenum),dp);
+fclose(dp)
+
+//glMatrixMode
+GLenum arg1;
+fread(&arg1,1,sizeof(GLenum),dp);
+
+//glMultMatrixd
+File *dp = fopen("param.data","a+");
+fwrite(&m,1,sizeof(GLdouble),dp);
+fclose(dp)
+
+//glMultMatrixd
+GLfloat arg1;
+fread(&arg1,1,sizeof(GLdouble),dp);
+
+//glViewport
+File *dp = fopen("param.data","a+");
+fwrite(&x,1,sizeof(GLint),dp);
+fwrite(&y,1,sizeof(GLint),dp);
+fwrite(&width,1,sizeof(GLsizei),dp);
+fwrite(&height,1,sizeof(GLsizei),dp);
+fclose(dp)
+
+//glViewport
+GLint arg1;
+GLint arg2;
+GLsizei arg3;
+GLsizei arg4;
+fread(&arg1,1,sizeof(GLint),dp);
+fread(&arg2,1,sizeof(GLint),dp);
+fread(&arg3,1,sizeof(GLsizei),dp);
+fread(&arg4,1,sizeof(GLsizei),dp);
+
+//glClearColor
+File *dp = fopen("param.data","a+");
+fwrite(&red,1,sizeof(GLclampf),dp);
+fwrite(&green,1,sizeof(GLclampf),dp);
+fwrite(&blue,1,sizeof(GLclampf),dp);
+fwrite(&alpha,1,sizeof(GLclampf),dp);
+fclose(dp)
+
+//glClearColor
+GLclampf arg1;
+GLclampf arg2;
+GLclampf arg3;
+GLclampf arg4;
+fread(&arg1,1,sizeof(GLclampf),dp);
+fread(&arg2,1,sizeof(GLclampf),dp);
+fread(&arg3,1,sizeof(GLclampf),dp);
+fread(&arg4,1,sizeof(GLclampf),dp);
